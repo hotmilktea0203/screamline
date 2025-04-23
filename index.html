@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SCREAMLINE — Let It Out</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Space+Mono&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    html, body {
+      font-family: 'Space Mono', monospace;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    html { scroll-padding-top: 80px; }
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 1rem 2rem;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      color: hotpink;
+      font-size: 1.4rem;
+    }
+    nav a {
+      color: white;
+      margin-left: 2rem;
+      text-decoration: none;
+      font-size: clamp(0.8rem, 1vw, 1rem);
+    }
+    nav a:hover { color: hotpink; }
+    section {
+      min-height: 100vh;
+      padding: 18vh 10vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      opacity: 1;
+    }
+    .hero {
+      background-image: url('neoncity.png');
+      background-blend-mode: overlay;
+      text-align: center;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.02);
+      mix-blend-mode: screen;
+      opacity: 0.1;
+    }
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 7vw;
+      color: hotpink;
+      text-shadow: 0 0 25px hotpink;
+      animation: flicker 2s infinite;
+    }
+    .hero p {
+      margin-top: 2rem;
+      font-size: 1.6vw;
+      color: #ccc;
+      max-width: 700px;
+      margin-inline: auto;
+    }
+    .cta-button {
+      margin-top: 2rem;
+      padding: 0.6rem 2.2rem;
+      background: transparent;
+      color: hotpink;
+      border: 2px solid hotpink;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: clamp(0.8rem, 1vw, 1.2rem);
+      box-shadow: 0 0 12px hotpink;
+    }
+    .cta-button:hover {
+      background: hotpink;
+      color: black;
+    }
+    .section-title {
+      font-size: clamp(2rem, 3.5vw, 4rem);
+      color: hotpink;
+      margin-bottom: 2rem;
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+    }
+    .section-text {
+      font-size: clamp(1rem, 1.3vw, 1.4rem);
+      line-height: 1.6;
+      color: #ddd;
+      max-width: 800px;
+      text-align: center;
+      margin-inline: auto;
+    }
+    .quote-block {
+      margin-top: 4vh;
+      font-size: 2vw;
+      font-style: italic;
+      border-left: 5px solid hotpink;
+      padding-left: 2rem;
+      background: rgba(255,255,255,0.03);
+      color: #ff99cc;
+      text-shadow: 0 0 5px #ff66cc;
+      max-width: 800px;
+      margin-inline: auto;
+    }
+    .final-quote p {
+      font-size: 2vw;
+      color: #ff99cc;
+      font-style: italic;
+      text-align: center;
+      line-height: 1.8;
+    }
+    .footer-about, .ambient-fadeout {
+      background: #000;
+      color: #999;
+      text-align: center;
+      font-size: 1vw;
+      padding: 10vh 10vw;
+    }
+    .transmission-bar {
+      height: 50vh;
+      background: black url('glitchbg.png') center/cover repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .transmission-bar div {
+      width: 50%;
+      height: 2px;
+      background: hotpink;
+      animation: flicker 1.5s infinite alternate;
+    }
+    .scroll-top-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: hotpink;
+      color: black;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 50px;
+      font-weight: bold;
+      box-shadow: 0 0 10px hotpink;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    section:nth-child(odd) {
+      background: linear-gradient(to bottom right, #0b0b0b, #000);
+    }
+    section:nth-child(even) {
+      background: radial-gradient(circle at center, #0a0a0a, #111);
+    }
+    .quote-block strong {
+      color: hotpink;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body onload="window.scrollTo(0, 0)">
+  <header>
+    <div class="logo">SCREAMLINE</div>
+    <nav>
+      <a href="#what">What</a>
+      <a href="#why">Why</a>
+      <a href="#how">How</a>
+      <a href="#quotes">Quotes</a>
+      <a href="#final">Final</a>
+    </nav>
+  </header>
+
+  <section class="hero fadein">
+    <h1>SCREAMLINE</h1>
+    <p>Sometimes, you just need to scream. No judgment. No response. Just release.</p>
+    <a href="tel:+1234567890" class="cta-button">CALL NOW</a>
+  </section>
+
+  <section id="what">
+    <div class="section-title">What is SCREAMLINE?</div>
+    <div class="section-text">
+      Not a hotline. Not therapy. Not someone waiting to fix you. <br><br>
+      SCREAMLINE is an anonymous scream space.<br>
+      No greetings. No advice. No voices. Just an open line to nowhere — and everywhere.
+    </div>
+    <div class="quote-block">“You call. You scream. You disappear. You survive.”</div>
+  </section>
+
+  <section id="why">
+    <div class="section-title">Why Do People Use It?</div>
+    <div class="section-text">
+      Screamed after a breakup. Fell asleep like a baby. <br>
+      2AM. Car. Full volume. Felt human again. <br>
+      Didn’t know why. Didn’t need to. <br>
+      Not poetic. Not beautiful. Just necessary.
+    </div>
+    <div class="quote-block">“I screamed. That’s the sentence.”</div>
+  </section>
+
+  <section id="how">
+    <div class="section-title">How It Works</div>
+    <div class="section-text">
+      01. Call the number. Don’t think. Just dial. <br>
+      02. Let it out. Scream. Cry. Sob. Whisper. <br>
+      03. Hang up. Like nothing happened. Like everything changed. <br>
+      04. Walk away lighter. <br>
+      05. Repeat when silence gets too loud.
+    </div>
+  </section>
+
+  <section id="quotes">
+    <div class="section-title">Is It a Joke?</div>
+    <div class="section-text">
+      Yes. And no. It’s satire. It’s therapy. It’s art. <br>
+      It’s rebellion in disguise. Not a punchline. A pressure valve. <br>
+      The world wants your whisper. SCREAMLINE gives you the mic.
+    </div>
+    <div class="quote-block">
+      “What if your soul didn’t need to be healed... What if it just needed to be heard?”
+    </div>
+  </section>
+
+  <section id="final">
+    <div class="final-quote">
+      <p>You don’t always need to explain.<br>
+      You don’t need to hold it together.<br>
+      You don’t need to be strong today.</p>
+      <p>“Sometimes, you just need to scream into the night,<br>
+      Feel your breath bounce back,<br>
+      and realize —<br>
+      You're still here. You're real.”</p>
+    </div>
+  </section>
+
+  <section class="ambient-fadeout">
+    <p>Even silence screams.</p>
+    <div style="margin-top: 4vh; font-size: 1vw; color: hotpink; opacity: 0.3;">(Try again when you need it most)</div>
+  </section>
+
+  <section class="footer-about">
+    <p><strong>SCREAMLINE</strong> is not a real service — but the need it represents is real.<br><br>
+    This experimental project explores voice, release, and invisible breakdowns.<br>
+    You are not alone in the noise. Even if no one hears it — scream anyway.</p>
+  </section>
+
+  <section class="transmission-bar">
+    <div></div>
+  </section>
+
+  <button class="scroll-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">↑</button>
+</body>
+</html>
